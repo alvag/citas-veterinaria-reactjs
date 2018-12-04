@@ -28,5 +28,12 @@ export default class Cita extends Component {
 
 Cita.propTypes = {
     eliminarCita: PropTypes.func.isRequired,
-    cita: PropTypes.object.isRequired
+    cita: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        nombreMascota: PropTypes.string.isRequired,
+        propietario: PropTypes.string.isRequired,
+        fecha: PropTypes.string.isRequired,
+        hora: PropTypes.string.isRequired,
+        sintomas: PropTypes.string.isRequired
+    }).isRequired
 };
