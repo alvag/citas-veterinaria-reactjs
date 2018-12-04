@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Cita from './Cita';
 
 export default class ListaCitas extends Component {
 
@@ -12,6 +13,13 @@ export default class ListaCitas extends Component {
             <div className="card mt-5">
                 <div className="card-body">
                     <h2 className="card-title text-center">{message}</h2>
+
+                    <div className="lista-citas">
+                        {citas.map((cita, index) => (
+                            <Cita key={index} cita={cita}
+                                eliminarCita={this.props.eliminarCita} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

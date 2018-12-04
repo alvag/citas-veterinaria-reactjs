@@ -15,6 +15,11 @@ class App extends Component {
         this.setState({ citas });
     }
 
+    eliminarCita = id => {
+        const citas = this.state.citas.filter(cita => cita.id !== id);
+        this.setState({ citas });
+    }
+
     render() {
         return (
             <div className="container">
@@ -24,7 +29,9 @@ class App extends Component {
                         <AgregarCita crearCita={this.crearCita} />
                     </div>
                     <div className="col-md-6">
-                        <ListaCitas citas={this.state.citas} />
+                        <ListaCitas
+                            citas={this.state.citas}
+                            eliminarCita={this.eliminarCita} />
                     </div>
                 </div>
             </div>
