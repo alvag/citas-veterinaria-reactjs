@@ -10,11 +10,22 @@ export default class AgregarCita extends Component {
     sintomas = React.createRef();
 
     state = {
-
+        error: false
     }
 
     crearNuevaCita = e => {
         e.preventDefault();
+
+        if (this.nombreMascota.current.value === '' ||
+            this.propietario.current.value === '' ||
+            this.hora.current.value === '' ||
+            this.fecha.current.value === '' ||
+            this.sintomas.current.value === '') {
+            this.setState({ error: true });
+            return;
+        }
+
+        this.setState({ error: false });
 
         const nuevaCita = {
             id: uuid(),
@@ -32,6 +43,8 @@ export default class AgregarCita extends Component {
     }
 
     render() {
+        const hasError = this.state.error;
+
         return (
             <div className="card mt-5">
                 <div className="card-body">
@@ -61,12 +74,13 @@ export default class AgregarCita extends Component {
 
                         <div className="form-group">
                             <label htmlFor="sintoma">Sintomas</label>
-                            <textarea ref={this.sintomas} className="form-control" id="sintoma"></textarea>
+                            <textarea ref={this.sintomas} className="form-control" id="sintoma" ></textarea>
                         </div>
                         <div className="d-flex justify-content-end">
                             <button type="submit" className="btn btn-success">Agregar</button>
                         </div>
                     </form>
+                    {hasError ? <div className="alert alert-danger text-center mt-3">Todos los campos son obligatorios</div> : ''}
                 </div>
             </div>
 
