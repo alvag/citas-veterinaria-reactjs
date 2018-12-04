@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cita from './Cita';
+import PropTypes from 'prop-types';
 
 export default class ListaCitas extends Component {
 
@@ -25,3 +26,8 @@ export default class ListaCitas extends Component {
         );
     }
 }
+
+ListaCitas.propTypes = {
+    citas: PropTypes.array.isRequired,
+    eliminarCita: PropTypes.func.isRequired
+};
