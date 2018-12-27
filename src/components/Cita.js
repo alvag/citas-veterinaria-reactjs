@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-export default class Cita extends Component {
+import { deleteCita } from '../actions/citasActions';
+
+class Cita extends Component {
 
     eliminarCita = () => {
-        this.props.eliminarCita(this.props.cita.id);
+        this.props.deleteCita(this.props.cita.id);
     }
 
     render() {
@@ -27,7 +30,7 @@ export default class Cita extends Component {
 }
 
 Cita.propTypes = {
-    eliminarCita: PropTypes.func.isRequired,
+    deleteCita: PropTypes.func.isRequired,
     cita: PropTypes.shape({
         id: PropTypes.string.isRequired,
         nombreMascota: PropTypes.string.isRequired,
@@ -37,3 +40,9 @@ Cita.propTypes = {
         sintomas: PropTypes.string.isRequired
     }).isRequired
 };
+
+const mapStateToProps = state => ({
+    citas: state.citas.citas
+});
+
+export default connect(mapStateToProps, { deleteCita })(Cita);

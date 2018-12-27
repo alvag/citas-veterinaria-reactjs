@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import uuid from 'uuid';
 import PropTypes from 'prop-types';
 
-export default class AgregarCita extends Component {
+import { mostrarError } from '../actions/errorActions';
+import { addCita } from '../actions/citasActions';
+
+class AgregarCita extends Component {
+
+    componentWillMount() {
+        this.props.mostrarError(false);
+    }
 
     nombreMascota = React.createRef();
     propietario = React.createRef();
     fecha = React.createRef();
     hora = React.createRef();
     sintomas = React.createRef();
-
-    state = {
-        error: false
-    }
 
     crearNuevaCita = e => {
         e.preventDefault();
@@ -22,11 +26,11 @@ export default class AgregarCita extends Component {
             this.hora.current.value === '' ||
             this.fecha.current.value === '' ||
             this.sintomas.current.value === '') {
-            this.setState({ error: true });
+            this.props.mostrarError(true);
             return;
         }
 
-        this.setState({ error: false });
+        this.props.mostrarError(false);
 
         const nuevaCita = {
             id: uuid(),
@@ -37,14 +41,14 @@ export default class AgregarCita extends Component {
             sintomas: this.sintomas.current.value
         };
 
-        this.props.crearCita(nuevaCita);
+        this.props.addCita(nuevaCita);
 
         e.currentTarget.reset();
         this.nombreMascota.current.focus();
     }
 
     render() {
-        const hasError = this.state.error;
+        const hasError = this.props.error;
 
         return (
             <div className="card mt-5">
@@ -90,5 +94,12 @@ export default class AgregarCita extends Component {
 }
 
 AgregarCita.propTypes = {
-    crearCita: PropTypes.func.isRequired
+    addCita: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => ({
+    citas: state.citas.citas,
+    error: state.error.error
+});
+
+export default connect(mapStateToProps, { addCita, mostrarError })(AgregarCita);

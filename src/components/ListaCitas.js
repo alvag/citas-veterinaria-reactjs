@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import Cita from './Cita';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class ListaCitas extends Component {
+import Cita from './Cita';
+import { getCitas } from '../actions/citasActions';
+import store from '../store';
+
+store.subscribe(() => {
+    localStorage.setItem('citas', JSON.stringify(store.getState()));
+});
+
+
+class ListaCitas extends Component {
+
+    componentDidMount() {
+        this.props.getCitas();
+    }
 
     render() {
 
@@ -17,8 +30,7 @@ export default class ListaCitas extends Component {
 
                     <div className="lista-citas">
                         {citas.map((cita, index) => (
-                            <Cita key={index} cita={cita}
-                                eliminarCita={this.props.eliminarCita} />
+                            <Cita key={index} cita={cita} />
                         ))}
                     </div>
                 </div>
@@ -28,6 +40,11 @@ export default class ListaCitas extends Component {
 }
 
 ListaCitas.propTypes = {
-    citas: PropTypes.array.isRequired,
-    eliminarCita: PropTypes.func.isRequired
+    citas: PropTypes.array.isRequired
 };
+
+const mapStateToProps = state => ({
+    citas: state.citas.citas
+});
+
+export default connect(mapStateToProps, { getCitas })(ListaCitas);
